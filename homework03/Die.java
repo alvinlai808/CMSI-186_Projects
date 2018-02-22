@@ -34,6 +34,7 @@
  *  @version 1.1.0  2017-02-17  B.J. Johnson  Filled in method code
  *  @version 1.2.0  2018-02-15  Alvin Lai     Finished methods except setSides and main
  *  @version 1.3.0  2018-02-21  Alvin Lai     Finished setSides, edited other methods
+ *  @version 2.0.0  2018-02-22  Alvin Lai     Completed and revised
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 public class Die {
 
@@ -41,7 +42,7 @@ public class Die {
    * private instance data
    */
    private int sides;
-   private int pips;
+   private int pips = 1;
    private final int MINIMUM_SIDES = 4;
 
    // public constructor:
@@ -117,6 +118,44 @@ public class Die {
    */
    public static void main( String[] args ) {
       System.out.println( "Hello world from the Die class..." );
+      System.out.println("Running test harness...");
+
+      // Constructor test
+      // Good input case nSides > minSides
+      Die d1 = new Die (6);
+
+      // Bad input case nSides <= minSides
+      try {
+      	Die d2 = new Die (3);
+      } catch(IllegalArgumentException iae) {
+      	System.out.println("Caught IllegalArgumentException as expected.");
+      }
+
+      // Set sides test
+      // Good input case nSides >= minSides
+      Die d3 = new Die (6);
+      d3.setSides(8);
+
+      // Bad input case nSides < minSides
+      Die d4 = new Die (6);
+      try {
+      	d4.setSides(3);
+      } catch(IllegalArgumentException iae) {
+      	System.out.println("Caught IllegalArgumentException as expected.");
+      }
+
+
+      // Simple test all functions
+      Die d5 = new Die(6);
+      System.out.println(toString(d5));
+      System.out.println(d5.toString());
+      System.out.println(d5.getValue());
+      d5.setSides(100);
+      System.out.println(d5.roll());
+      System.out.println(d5.toString());
+
+      System.out.println("No errors for testing as expected. Tests passed!");
+
    }
 
 }
