@@ -27,7 +27,10 @@
  *           -----  ----------  ------------  -----------------------------------------------------------
  *  @version 1.0.0  2017-02-09  B.J. Johnson  Initial writing and release
  *  @version 1.1.0  2018-02-21  Alvin Lai     Had every method completed except static toString method and main
+ *  @version 2.0.0  2018-02-22  Alvin Lai     Completed and revised
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+import java.util.Arrays;
+
 public class DiceSet {
 
   /**
@@ -78,7 +81,6 @@ public class DiceSet {
       for ( int i = 0; i < count; i++ ) {
         result += new Integer( ds[i].roll() ).toString() + " ";
       }
-      System.out.println(result);
    }
 
   /**
@@ -128,15 +130,111 @@ public class DiceSet {
    * @return  tru iff this set is identical to the set passed as an argument
    */
    public boolean isIdentical( DiceSet ds ) {
+   	
+   		int[] a1 = new int[count];
+   		int[] a2 = new int[count];
+   		for (int i = 0; i < count; i++) {
+   			a1[i] = this.getIndividual(i);
+   			a2[i] = ds.getIndividual(i);
+   		}
+
+   		Arrays.sort(a1);
+   		Arrays.sort(a2);
+
+   		boolean valuesAreEqual = true;
+   		for (int i = 0; i < count; i++) {
+   			if (a1[i] != a2[i]) {
+   				valuesAreEqual = false;
+   			}
+   		}
+
+
       return (( this.count == ds.count ) &&
               ( this.sides == ds.sides ) &&
-              ( this.sum() == ds.sum() ));
+              ( valuesAreEqual ));
    }
   /**
    * A little test main to check things out
    */
    public static void main( String[] args ) {
-      // You do this part!
+    	// Constructor tests
+   		// Good input (count > 0, nSides >= minSides)
+   		DiceSet ds1 = new DiceSet(5, 6);
+
+   		// Bad input 1 (count <= 0)
+   		try {
+   			DiceSet ds2 = new DiceSet(0, 6);
+   		} catch (IllegalArgumentException iae) {
+   			System.out.println("Caught IllegalArgumentException as expected.");
+   		}
+
+   		// Bad input 2 (nSides < minSides)
+   		try {
+   			DiceSet ds3 = new DiceSet(5, 3);
+   		} catch (IllegalArgumentException iae) {
+   			System.out.println("Caught IllegalArgumentException as expected.");
+   		}
+
+   		// Bad input 3 (count <= 0 and nSides < minSides)
+   		try {
+   			DiceSet ds4 = new DiceSet(0, 3);
+   		} catch (IllegalArgumentException iae) {
+   			System.out.println("Caught IllegalArgumentException as expected.");
+   		}
+
+   		// Normal input conditions test
+   		DiceSet ds5 = new DiceSet(5, 6);
+   		System.out.println(toString(ds5));
+   		System.out.println(ds5.toString());
+   		System.out.println(ds5.sum());
+   		System.out.println(ds5.rollIndividual(0));
+   		System.out.println(ds5.getIndividual(0));
+   		System.out.println("Normal input conditions pass testing without error!");
+
+
+   		// Test identical
+   		DiceSet ds6 = new DiceSet(5, 6);
+   		ds6.roll();
+   		DiceSet ds7 = ds6;
+   		System.out.println("Comparing " + toString(ds6) + " with " + toString(ds7) + "...");
+   		if (ds6.isIdentical(ds7)){
+   			System.out.println("Is identical function works!");
+   		} else {
+   			System.out.println("Is identical function failed.");
+   		}
+
+   		// Test non-identical (different dice values)
+   		DiceSet ds8 = new DiceSet(5, 1000);
+   		DiceSet ds9 = new DiceSet(5, 1000);
+   		ds8.roll();
+   		ds9.roll();
+   		System.out.println("Comparing " + toString(ds8) + " with " + toString(ds9) + "...");
+   		if (!ds8.isIdentical(ds9)){
+   			System.out.println("Is identical function works!");
+   		} else {
+   			System.out.println("Is identical function failed.");
+   		}
+
+   		// Test non-identical (different dice numbers)
+   		DiceSet ds10 = new DiceSet(5, 6);
+   		DiceSet ds11 = new DiceSet(10, 6);
+   		System.out.println("Comparing " + toString(ds10) + " with " + toString(ds11) + "...");
+   		if (!ds10.isIdentical(ds11)){
+   			System.out.println("Is identical function works!");
+   		} else {
+   			System.out.println("Is identical function failed.");
+   		}
+
+   		// Test non-identical (different dice numbers)
+   		DiceSet ds12 = new DiceSet(5, 6);
+   		DiceSet ds13 = new DiceSet(5, 1000);
+   		System.out.println("Comparing " + toString(ds12) + " with " + toString(ds13) + "...");
+   		if (!ds12.isIdentical(ds13)){
+   			System.out.println("Is identical function works!");
+   		} else {
+   			System.out.println("Is identical function failed.");
+   		}
+
    }
 
 }
