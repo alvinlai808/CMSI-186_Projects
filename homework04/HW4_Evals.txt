@@ -1,0 +1,41 @@
+
+Evaluation for homework 04: Clock Solver
+
+Clock and ClockSolver programs
+Includes running Clock main to observe tests
+Includes running automated ClockSolver tests
+   View testH$4.bat to see test parameters used
+===============================================
+
+A total of one point each for the following:
+
+class Clock             : Exists, coding style acceptable   -  1 point
+Constructor             : Freebie, since not really needed  -  1 point
+tick                    : works                             -  1 point
+getHourHandAngle        : works                             -  1 point
+getMinuteHandAngle      : works                             -  1 point
+getHandAngle            : works                             -  1 point
+getTotalSeconds         : works                             -  1 point
+toString                : works                             -  1 point
+main exists             : Exists                            -  1 point
+Test Code               : Contains some method test code    -  1 point
+
+class ClockSolver       : Exists, coding style acceptable   -  1 point
+Constructor             : Exists, works properly            -  1 point
+HandleInitialArguments  : works                             -  0 points (0/7)
+   gets infinite loop for everything that I run... can't check this
+
+main exists             : works                             -  1 point
+works as advertised     : passes all tests in the series    -  4.5 points
+   clock tick is never advancing... always has zero time;  however,
+   you wrote a bunch of code in there, so I'll allow 1/2 credit for it
+
+Files in Git            : two files required                -  2 points
+Coding Style overall    : coding style acceptable           -  1 point
+
+
+Total 20.50 out of 27 = 75.93% which is a C
+
+If you would like some help with any of this, feel free to see me during
+office hours or make an appointment using my youcanbookme site.
+
