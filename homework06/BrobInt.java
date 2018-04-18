@@ -235,61 +235,63 @@ public class BrobInt {
 
    public BrobInt subtractInt( BrobInt gint ) {
 
-      String reversed1 = this.internalValue;
-      String reversed2 = gint.internalValue;
-      String result = "";
+      // String reversed1 = this.internalValue;
+      // String reversed2 = gint.internalValue;
+      // String result = "";
 
-      int s1 = this.sign;
-      int s2 = gint.sign;
+      // int s1 = this.sign;
+      // int s2 = gint.sign;
 
-      boolean negOut = false;
-      if ( s1 == 1 && s2 == 1 ) {
-          negOut = true;
-      } else if ( s1 == 0 && s2 == 1 ) {
-          return this.subtractInt( gint );
-      } else if ( s1 == 1 && s2 == 0 ) {
-          return gint.subtractInt( this );
-      } else {
-          // positve result, do nothing
-      }
-
-
-      if ( reversed1.length() > reversed2.length() ) {
-          String temp = reversed1;
-          reversed1 = reversed2;
-          reversed2 = temp;
-      }
-
-      int carry = 0;
-      for ( int i = 0; i < reversed2.length(); i++ ) {
-          int curTemp = ( reversed1.charAt(i) - 48 - reversed2.charAt(i) - 48 - carry );
-          if (curTemp < 0) {
-              carry = 1;
-              curTemp += 10;
-          }
-          result = (char)( curTemp + 48 ) + result;
-      }
-
-      for ( int i = reversed2.length(); i < reversed1.length(); i++ ) {
-          int curTemp = ( reversed2.charAt(i) - 48 - carry );
-          if ( curTemp < 0 ) {
-              carry = 1;
-              curTemp += 10;
-          }
-          result = (char)( curTemp + 48 ) + result;
-      }
-
-      // if ( carry != 0 ) {
-      //     result = (char)( carry + 48 ) + result;
+      // boolean negOut = false;
+      // if ( s1 == 1 && s2 == 1 ) {
+      //     negOut = true;
+      // } else if ( s1 == 0 && s2 == 1 ) {
+      //     return this.subtractInt( gint );
+      // } else if ( s1 == 1 && s2 == 0 ) {
+      //     return gint.subtractInt( this );
+      // } else {
+      //     // positve result, do nothing
       // }
 
-      // if ( negOut ) {
-      //     result = "-" + result;
+
+      // if ( reversed1.length() > reversed2.length() ) {
+      //     String temp = reversed1;
+      //     reversed1 = reversed2;
+      //     reversed2 = temp;
       // }
 
-      return new BrobInt( result );
+      // int carry = 0;
+      // for ( int i = 0; i < reversed2.length(); i++ ) {
+      //     int curTemp = ( reversed1.charAt(i) - 48 - reversed2.charAt(i) - 48 - carry );
+      //     if (curTemp < 0) {
+      //         carry = 1;
+      //         curTemp += 10;
+      //     }
+      //     result = (char)( curTemp + 48 ) + result;
+      // }
+
+      // for ( int i = reversed2.length(); i < reversed1.length(); i++ ) {
+      //     int curTemp = ( reversed2.charAt(i) - 48 - carry );
+      //     if ( curTemp < 0 ) {
+      //         carry = 1;
+      //         curTemp += 10;
+      //     }
+      //     result = (char)( curTemp + 48 ) + result;
+      // }
+
+      // // if ( carry != 0 ) {
+      // //     result = (char)( carry + 48 ) + result;
+      // // }
+
+      // // if ( negOut ) {
+      // //     result = "-" + result;
+      // // }
 
       // return new BrobInt( result );
+
+      // // return new BrobInt( result );
+        throw new UnsupportedOperationException( "\n         Sorry, that operation is not yet implemented." );
+
    }
 
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
