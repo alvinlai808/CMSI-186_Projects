@@ -154,6 +154,7 @@ public class BrobInt {
       String reversed1 = this.internalValue;
       String reversed2 = gint.internalValue;
       String result = "";
+      String returnStr = "";
 
       int s1 = this.sign;
       int s2 = gint.sign;
@@ -186,25 +187,32 @@ public class BrobInt {
           result = (char)( curTemp + 48 ) + result;
       }
 
-      for ( int i = reversed1.length(); i < reversed2.length(); i++ ) {
-          int curTemp = ( reversed2.charAt(i) - 48 + carry );
-          if ( curTemp >= 10 ) {
-              carry = 1;
-              curTemp -= 10;
-          }
-          result = (char)( curTemp + 48 ) + result;
+
+      // System.out.println("————"+reversed1.length());
+      // System.out.println("————"+reversed2.length());
+      // System.out.println(result);
+      for ( int i = result.length() - 1; i >= 0; i-- ) {
+          returnStr += result.charAt(i);
       }
 
       if ( carry != 0 ) {
-          result = (char)( carry + 48 ) + result;
+          returnStr = (char)( carry + 48 ) + returnStr;
       }
 
       if ( negOut ) {
-          result = "-" + result;
+          returnStr = "-" + returnStr;
       }
 
-      return new BrobInt( result );
+      return new BrobInt( returnStr );
 
+   }
+
+   // public BrobInt add ( BrobInt gint) {
+   //  throw new UnsupportedOperationException( "\n         Sorry, that operation is not yet implemented." );
+   // }
+
+  public BrobInt subtract ( BrobInt gint) {
+    throw new UnsupportedOperationException( "\n         Sorry, that operation is not yet implemented." );
    }
 
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
