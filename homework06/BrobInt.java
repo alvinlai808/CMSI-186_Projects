@@ -50,7 +50,6 @@ public class BrobInt {
    private int[]  intVersion    = null;      // int array for storing the string values; uses the reversed string
    private StringBuilder sb     = new StringBuilder();
 
-
   /**
    *  Constructor takes a string and assigns it to the internal storage, checks for a sign character
    *   and handles that accordingly;  it then checks to see if it's all valid digits, and reverses it
@@ -59,13 +58,14 @@ public class BrobInt {
    */
    public BrobInt( String value ) {
       // complains if no value passed into constructor
-      if( value == "" || value == null ) {
-        throw new IllegalArgumentException( "No value was passed to the constructor" );
+      if ( value == "" || value == null ) {
+        throw new IllegalArgumentException ( "No value was passed to the constructor" );
       }
 
       // assigns string to internal storage, then checks sign
       internalValue = value;
-      if( internalValue.charAt(0) == '-' ) {
+
+      if ( internalValue.charAt(0) == '-' ) {
         // if string is negative, change sign to 1 (represents negative)
         sign = 1;
         // set internalValue to its absolute value (everything but the sign)
@@ -76,21 +76,22 @@ public class BrobInt {
       }
       
       // validates value
-      if( !validateDigits() ) {
+      if ( !validateDigits() ) {
         // TODO throw exception
       }
 
       //TODO: reverse internalValue
       intVersion = new int[ internalValue.length() ];
       reversed = "";
-      for( int i = 0; i < internalValue.length(); i++ ) {
+
+      for ( int i = 0; i < internalValue.length(); i++ ) {
         char store = internalValue.charAt( internalValue.length()-1-i );
         if ( Character.isDigit(store) ) {
           intVersion[i] = Character.getNumericValue( store );
           reversed += store;
         }
       }
-    
+
    }
 
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -103,11 +104,12 @@ public class BrobInt {
    public boolean validateDigits() {
       // parses characters from internalValue and compares to characters of valChars to validate
       String valChars = "+-0123456789";
-      for( int i = 0; i < internalValue.length(); i++ ) {
-        if( valChars.contains( Character.toString(internalValue.charAt(i)) ) ) {
+      for ( int i = 0; i < internalValue.length(); i++ ) {
+        if ( valChars.contains( Character.toString(internalValue.charAt(i)) ) ) {
           return true;
         }
       }
+
       return false;
    }
 
@@ -124,9 +126,11 @@ public class BrobInt {
    *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
    public BrobInt reverser() {
       StringBuilder reverser = new StringBuilder();
+
       for ( int i = 0; i < internalValue.length(); i++ ){
          reverser.append( internalValue.charAt( (internalValue.length()-1) - i ) );
       }
+
       return new BrobInt( reverser.toString() );
    }
 
@@ -144,6 +148,7 @@ public class BrobInt {
    *  @param  gint         BrobInt to add to this
    *  @return BrobInt that is the sum of the value of this BrobInt and the one passed in
    *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
    public BrobInt addInt( BrobInt gint ) {
 
       String reversed1 = this.internalValue;
@@ -181,7 +186,7 @@ public class BrobInt {
           result = (char)( curTemp + 48 ) + result;
       }
 
-      for ( int i = reversed1.length(); i<reversed2.length(); i++ ) {
+      for ( int i = reversed1.length(); i < reversed2.length(); i++ ) {
           int curTemp = ( reversed2.charAt(i) - 48 + carry );
           if ( curTemp >= 10 ) {
               carry = 1;
@@ -207,8 +212,76 @@ public class BrobInt {
    *  @param  gint         BrobInt to subtract from this
    *  @return BrobInt that is the difference of the value of this BrobInt and the one passed in
    *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+     // set up for subtraction sign handling to decide what to do based on the following cases:
+     //    1. no signs at all, this item larger than argument:        simple subtraction a - b
+     //    2. both signs positive, this item larger than argument:    simple subtraction a - b
+     //    3. one positive one no sign, this item larger than arg:    simple subtraction a - b
+     //    4. no signs at all, this item smaller than argument:       swap a & b, subtract a - b, result negative
+     //    5. both signs positive, this item smaller than argument:   swap a & b, subtract a - b, result negative
+     //    6. one positive one no sign, this item smaller than arg:   swap a & b, subtract a - b, result negative
+     //    7. this no sign or positive, arg negative:                 remove neg from arg and call this.add( arg )
+     //    8. this negative, arg positive:                            add negative to arg and call this.add( arg )
+     //    9. both signs negative, this larger abs than arg abs:      remove signs, subtract, add neg to result
+     //   10. both signs negative, this smaller abs than arg abs:     remove signs, swap a & b, subtract, result pos
+
    public BrobInt subtractInt( BrobInt gint ) {
-      throw new UnsupportedOperationException( "\n         Sorry, that operation is not yet implemented." );
+
+      String reversed1 = this.internalValue;
+      String reversed2 = gint.internalValue;
+      String result = "";
+
+      int s1 = this.sign;
+      int s2 = gint.sign;
+
+      boolean negOut = false;
+      if ( s1 == 1 && s2 == 1 ) {
+          negOut = true;
+      } else if ( s1 == 0 && s2 == 1 ) {
+          return this.subtractInt( gint );
+      } else if ( s1 == 1 && s2 == 0 ) {
+          return gint.subtractInt( this );
+      } else {
+          // positve result, do nothing
+      }
+
+
+      if ( reversed1.length() > reversed2.length() ) {
+          String temp = reversed1;
+          reversed1 = reversed2;
+          reversed2 = temp;
+      }
+
+      int carry = 0;
+      for ( int i = 0; i < reversed2.length(); i++ ) {
+          int curTemp = ( reversed1.charAt(i) - 48 - reversed2.charAt(i) - 48 - carry );
+          if (curTemp < 0) {
+              carry = 1;
+              curTemp += 10;
+          }
+          result = (char)( curTemp + 48 ) + result;
+      }
+
+      for ( int i = reversed2.length(); i < reversed1.length(); i++ ) {
+          int curTemp = ( reversed2.charAt(i) - 48 - carry );
+          if ( curTemp < 0 ) {
+              carry = 1;
+              curTemp += 10;
+          }
+          result = (char)( curTemp + 48 ) + result;
+      }
+
+      // if ( carry != 0 ) {
+      //     result = (char)( carry + 48 ) + result;
+      // }
+
+      // if ( negOut ) {
+      //     result = "-" + result;
+      // }
+
+      return new BrobInt( result );
+
+      // return new BrobInt( result );
    }
 
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -246,7 +319,7 @@ public class BrobInt {
    *        THAT was easy.....
    *  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
    public int compareTo( BrobInt gint ) {
-    return this.internalValue.compareTo(gint.internalValue);
+      return this.internalValue.compareTo(gint.internalValue);
   }
   /** ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
    *  Method to check if a BrobInt passed as argument is equal to this BrobInt
