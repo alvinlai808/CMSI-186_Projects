@@ -18,7 +18,8 @@
  *  1.1.0  2018-04-25  Alvin Lai     Completed makeChangeWithDynamicProgramming() method, began printUsage()
  *                                    and getSimplePluralSuffix() methods
  *  1.2.0  2018-04-26  Alvin Lai     Completed printUsage() and getSimplePluralSuffix() methods
- *  1.3.0  2018-05-02  Alvin Lai     Completed DynamicChangeMaker methods
+ *  1.3.0  2018-04-30  Alvin Lai     Completed DynamicChangeMaker methods
+ *  1.4.0  2018-05-01  Alvin Lai     Added javadocs
  *
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
@@ -30,7 +31,8 @@ import java.util.Arrays;
 public class DynamicChangeMaker {
 
   /**
-   *
+   *  Main program that finds optimal amount of change
+   *  @param args = coin denominations and target value
    */
    public static void main( String[] args ) {
       if ( args.length != 2 ) {
@@ -87,7 +89,10 @@ public class DynamicChangeMaker {
    }
 
   /**
-   *
+   *  Finds optimal change given some denominations
+   *  @param   denominations = type of coins that can be used
+   *  @param   amount = target value for denominations to satisfy
+   *  @return  answer = optimal denomination amount for desired amount
    */
    public static Tuple makeChangeWithDynamicProgramming( int[] denominations, int amount ) {
       // Creates a table with # rows = # of denominations and # columns = target amount + 1
@@ -132,7 +137,6 @@ public class DynamicChangeMaker {
             }
 
             answer = table[i][j];
-
          }
       }
 
@@ -140,7 +144,8 @@ public class DynamicChangeMaker {
    }
 
   /**
-   *
+   *  Prints error message to help user see how to input correct values
+   *  Shows when user puts in values wrong
    */
    private static void printUsage() {
       System.out.println( "Usage: java DynamicChangeMaker <denominations> <amount>" );
@@ -149,7 +154,9 @@ public class DynamicChangeMaker {
    }
 
   /**
-   *
+   *  adds plurals to coins that are used more than once in the optimal change
+   *  @param   count = # of certain coins
+   *  @return  nothing or an s depending on amount of coins
    */
    private static String getSimplePluralSuffix( int count ) {
       return count == 1 ? "" : "s";
